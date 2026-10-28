@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#176b4d">
+  <title>Daily Expenses Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#top" aria-label="Daily Ledger home">
+        <span class="brand-mark">₹</span>
+        <span><strong>daily ledger</strong><small>PERSONAL FINANCE</small></span>
+      </a>
+      <div class="nav-label">WORKSPACE</div>
+      <a class="nav-link active" href="#overview"><span class="nav-icon">▦</span> Overview</a>
+      <a class="nav-link" href="#add-expense"><span class="nav-icon">＋</span> Add expense</a>
+      <a class="nav-link" href="#history"><span class="nav-icon">↗</span> Transactions</a>
+      <div class="sidebar-note">
+        <span class="note-icon">✦</span>
+        <strong>Small steps add up.</strong>
+        <p>Keep an eye on today so your goals stay in sight.</p>
+      </div>
+      <div class="sidebar-footer"><span class="status-dot"></span> Saved locally on this computer</div>
+    </aside>
+
+    <main class="main-content" id="top">
+      <header class="topbar">
+        <div><p class="eyebrow" id="today-label">YOUR MONEY, IN FOCUS</p><h1>Good day<span class="heading-dot">.</span></h1></div>
+        <div class="topbar-right"><span class="month-chip"><span class="calendar-icon">▦</span><span id="month-label">This month</span></span><span class="avatar">DL</span></div>
+      </header>
+
+      <section id="overview" class="welcome-row">
+        <div><h2>Your financial overview</h2><p>A clearer picture of where your money goes.</p></div>
+        <a class="primary-button" href="#add-expense"><span>＋</span> Add expense</a>
+      </section>
+
+      <section class="stats-grid" aria-label="Monthly financial summary">
+        <article class="stat-card spending-card">
+          <div class="stat-top"><span class="stat-label">Monthly spending</span><span class="stat-icon green-icon">↗</span></div>
+          <div class="stat-value" id="monthly-spending">₹0.00</div>
+          <div class="stat-foot"><span class="mini-dot"></span> Spent this month</div>
+          <div class="card-accent"></div>
+        </article>
+        <article class="stat-card budget-card">
+          <div class="stat-top"><span class="stat-label">Remaining budget</span><span class="stat-icon pale-icon">◷</span></div>
+          <div class="stat-value" id="remaining-budget">₹0.00</div>
+          <div class="budget-track"><span id="budget-progress"></span></div>
+          <div class="budget-bottom"><div class="stat-foot" id="budget-foot">Set a budget to track your progress</div><button class="text-button" id="set-budget" type="button">Set budget</button></div>
+        </article>
+        <article class="stat-card count-card">
+          <div class="stat-top"><span class="stat-label">Total expenses</span><span class="stat-icon yellow-icon">≋</span></div>
+          <div class="stat-value" id="total-expenses">0</div>
+          <div class="stat-foot">Across all recorded transactions</div>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <article class="panel add-panel" id="add-expense">
+          <div class="panel-heading"><div><span class="section-kicker">NEW TRANSACTION</span><h3>Add an expense</h3><p>Record a purchase in a few seconds.</p></div><span class="panel-heading-icon">＋</span></div>
+          <form id="expense-form">
+            <div class="field-group"><label for="amount">Amount <span>*</span></label><div class="amount-input"><span>₹</span><input id="amount" name="amount" type="number" min="0.01" step="0.01" placeholder="0.00" required></div></div>
+            <div class="field-group"><label for="category">Category <span>*</span></label><select id="category" name="category" required><option value="Food">🍲 &nbsp; Food</option><option value="Travel">🚌 &nbsp; Travel</option><option value="Education">📚 &nbsp; Education</option><option value="Shopping">🛍️ &nbsp; Shopping</option><option value="Other">✳ &nbsp; Other</option></select></div>
+            <div class="field-group"><label for="description">Description <span>*</span></label><input id="description" name="description" type="text" maxlength="120" placeholder="What did you spend on?" required></div>
+            <div class="field-group"><label for="date">Date <span>*</span></label><input id="date" name="date" type="date" required></div>
+            <button class="primary-button submit-button" type="submit"><span>＋</span> Save expense</button>
+            <p class="form-message" id="expense-message" role="status" aria-live="polite"></p>
+          </form>
+        </article>
+
+        <article class="panel chart-panel">
+          <div class="panel-heading"><div><span class="section-kicker">SPENDING BREAKDOWN</span><h3>By category</h3><p>See what takes the biggest share.</p></div><span class="chart-badge">This month</span></div>
+          <div class="chart-layout"><div class="pie-chart" id="pie-chart" role="img" aria-label="Category spending chart"><div class="pie-hole"><span>MONTHLY</span><strong id="pie-total">₹0</strong><small>spent</small></div></div><div class="chart-legend" id="chart-legend"><p class="empty-legend">Your category breakdown will appear here.</p></div></div>
+          <div class="chart-footer"><span class="legend-dot"></span> Based on expenses recorded this month</div>
+        </article>
+      </section>
+
+      <section class="panel history-panel" id="history">
+        <div class="history-heading"><div><span class="section-kicker">YOUR ACTIVITY</span><h3>Expense history</h3><p>Every transaction, all in one place.</p></div><div class="table-tools"><label class="search-box"><span>⌕</span><input id="search-input" type="search" placeholder="Search expenses" aria-label="Search expenses"></label><select id="filter-category" aria-label="Filter by category"><option value="All">All categories</option><option>Food</option><option>Travel</option><option>Education</option><option>Shopping</option><option>Other</option></select></div></div>
+        <div class="table-wrap"><table><thead><tr><th>DESCRIPTION</th><th>CATEGORY</th><th>DATE</th><th class="amount-column">AMOUNT</th></tr></thead><tbody id="expense-rows"><tr><td class="empty-table" colspan="4">Loading your expenses…</td></tr></tbody></table></div>
+        <div class="table-footer"><span id="record-count">0 transactions</span><span>Amounts in INR (₹)</span></div>
+      </section>
+      <footer class="page-footer"><span>Made for mindful spending.</span><span>Daily Ledger <span class="footer-dot">●</span></span></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
